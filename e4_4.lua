@@ -48,7 +48,7 @@ More straightforward transformation.  All transitions are tail calls so there's 
 local function states_as_functions()
   local room1, room2, room3, room4
 
-  room1 = function()
+  function room1()
     local move = io.read()
     if move == "south" then room3()
     elseif move == "east" then room2()
@@ -58,7 +58,7 @@ local function states_as_functions()
     end
   end
 
-  room2 = function()
+  function room2()
     local move = io.read()
     if move == "south" then room4()
     elseif move == "west" then room1()
@@ -68,7 +68,7 @@ local function states_as_functions()
     end
   end
 
-  room3 = function()
+  function room3()
     local move = io.read()
     if move == "north" then room1()
     elseif move == "east" then room4()
@@ -78,7 +78,7 @@ local function states_as_functions()
     end
   end
 
-  room4 = function()
+  function room4()
     print("Congratulations, you won!")
   end
 
