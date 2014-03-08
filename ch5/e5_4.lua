@@ -1,6 +1,5 @@
 function rest(list)
-  function aux(head, ...) return table.pack(...) end
-  return aux(unpack(list))
+  return (function(head, ...) return table.pack(...) end)(unpack(list))
 end
 
 function combinations(a, m)
