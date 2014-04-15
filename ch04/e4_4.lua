@@ -1,4 +1,8 @@
 --[[
+Rewrite the state machine of Listing 4.2 without using goto.
+]]
+
+--[[
 Kind of an interesting idea, but it muddles up moves with the enter signal.  This exposes "enter" as a possible move which is less than desirable.  Meh.
 ]]
 local function states_as_tables()

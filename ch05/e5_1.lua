@@ -1,3 +1,7 @@
+--[[
+Write a function that receives an arbitrary number of strings and returns all of them concatenated together.
+]]
+
 function string_catter(...)
   local s = ""
 

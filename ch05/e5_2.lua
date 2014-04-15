@@ -1,3 +1,7 @@
+--[[
+Write a function that receives an array and prints all elements in that array.  Consider the pros and cons of using table.unpack in this function.
+]]
+
 function array_printer_ipairs(a)
   for _, v in ipairs(a) do
     print(v)

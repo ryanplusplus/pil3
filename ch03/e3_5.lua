@@ -1,3 +1,7 @@
+--[[
+How can you check whether a value is a boolean without using the type function?
+]]
+
 function is_boolean(x)
   return (x == true) or (x == false)
 end

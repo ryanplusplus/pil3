@@ -1,3 +1,7 @@
+--[[
+Implement and run the code of the previous seciton(non-preemptive multitasking).
+]]
+
 local socket = require "socket"
 
 function download(host, file)

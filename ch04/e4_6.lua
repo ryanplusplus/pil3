@@ -1,4 +1,8 @@
 --[[
+Assuming that a goto could jump out of a function, explain what the program in Listing 4.3 would do.  (Try to reason about the label using the same scoping rules used for local variables.)
+]]
+
+--[[
 function getlabel()
   return function() goto L1 end
   :: L1::

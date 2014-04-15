@@ -1,4 +1,8 @@
 --[[
+Can you write the function from the previous item so that it uses at most n additions and multiplications (and no exponentiations)?
+]]
+
+--[[
 We can factor out x to get rid of exponentiation.  Consider n = 3:
 c3*x^3 + c2*x^2 + c1*x + c0
 (c3*x^2 + c2*x + c1)*x + c0

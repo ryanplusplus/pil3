@@ -1,3 +1,7 @@
+--[[
+When we apply the word-frequency program to a text, usually the most frequent words are uninteresting small words like articles and prepositions.  Change the program so that it ignores words with less than four letters.
+]]
+
 local function allwords()
   local auxwords = function()
     for line in io.lines() do

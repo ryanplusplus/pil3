@@ -1,3 +1,7 @@
+--[[
+Add a step parameter to the iterator from the previous exercise.  Can you still implement it as a stateless iterator?
+]]
+
 function fromto_closure(from, to, step)
   local i = from
   step = step or 1

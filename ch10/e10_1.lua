@@ -1,3 +1,7 @@
+--[[
+Modify the eight-queen program so that it stops after printing the first solution.
+]]
+
 local N = 8
 
 local function isplaceok(a, n, c)

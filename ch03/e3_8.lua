@@ -1,3 +1,7 @@
+--[[
+Suppose that you want to create a table that associates each escape sequence for strings (see Section 2.4) with its meaning.  How could you write a constructor for that table?
+]]
+
 local escape_sequences = {
    ['\a'] = "bell",
    ['\b'] = "backspace",

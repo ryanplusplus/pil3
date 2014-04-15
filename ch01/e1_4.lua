@@ -1,4 +1,15 @@
 --[[
+Which of the following strings are valid identifiers?
+___
+_end
+End
+end
+until?
+nil
+NULL
+]]
+
+--[[
   --- => Valid
   _end => Valid
   End => Valid

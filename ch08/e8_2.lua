@@ -1,3 +1,11 @@
+--[[
+Write a function multiload that generalizes loadwithprefix by receiving a list of readers, as in the following example:
+
+f = multiload("local x = 10;",
+  io.lines("temp" "*L"),
+  " print(x)")
+]]
+
 function multiload(...)
   local args = {...}
 

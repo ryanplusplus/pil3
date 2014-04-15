@@ -1,3 +1,7 @@
+--[[
+Write a function integral that receives a function f and returns an approximation of its integral.
+]]
+
 function integral(f, delta)
   delta = delta or 1e-4
   local function integrate(a, b)

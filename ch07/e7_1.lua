@@ -1,3 +1,17 @@
+--[[
+Write an iterator fromto tsuch that the next two loops become equivalent:
+
+for i in fromto(1, 5) do
+  <body?
+end
+
+for i = n, m
+  <body>
+end
+
+Can you implement it as a stateless iterator?
+]]
+
 function fromto_closure(n, m)
   local i = n
 

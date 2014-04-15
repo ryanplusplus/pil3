@@ -1,3 +1,7 @@
+--[[
+Write a function that receives an arbitrary number of values and returns all of them, except the first one.
+]]
+
 function all_but_first(...)
   local args = table.pack(...)
 

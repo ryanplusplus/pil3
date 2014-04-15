@@ -1,3 +1,9 @@
+--[[
+We can represent a polynomial an * x^n + an-1 * x^n-1 + ... + a1 * x^1 + ao in Lua as a list of its coefficients, such as {ao, a1, ..., an}.
+
+Write a function that receives a polynomial (represented as a table) and a value for x and returns the polynomial value.
+]]
+
 function calc_poly(coeffs, x)
   local sum = 0
 
