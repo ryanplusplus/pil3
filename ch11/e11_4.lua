@@ -96,3 +96,9 @@ a = name2node(g, "a")
 b = name2node(g, "b")
 p = findshortestpath(g, a, b)
 if p then printpath(p) end
+
+--[[
+lua e11_4.lua < graph
+=>
+a => e => c => b
+]]
