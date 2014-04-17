@@ -1,8 +1,13 @@
 --[[
-Modify the code in Listing 12.2 so that it uses the syntax ["key"] = value as suggested in Section 12.2.
+Modify the code of the previous exercise so that it uses the syntax["key"]=value only when necessary (that is, when the key is a string but not a valid identifier).
 ]]
 
 function serialize(o, indent)
+  local function valid_identifier(k)
+    -- Nifty little trick and a lot easier than trying to do the work that Lua already does
+    return load(tostring(k) .. "= 1") and true or false
+  end
+
   local function aux(o, indent)
     indent = indent or ""
 
@@ -14,7 +19,11 @@ function serialize(o, indent)
       io.write("{\n")
 
       for k, v in pairs(o) do
-        io.write(indent .. "  ["); aux(k); io.write("] = ")
+        if valid_identifier(k) then
+          io.write(indent .. "  ", k, " = ")
+        else
+          io.write(indent .. "  ["); aux(k); io.write("] = ")
+        end
 
         aux(v, indent .. "  ")
         io.write(",\n")
@@ -36,10 +45,10 @@ end
 serialize{a = 1, ["1b"] = 2, c = 3, ["for"] = 4, [5] = 5}
 --[[
 {
-  ["c"] = 3,
-  ["1b"] = 2,
-  [5] = 5,
-  ["a"] = 1,
+  [5] = 5
+  a = 1,
   ["for"] = 4,
+  c = 3,
+  ["1b"] = 2,
 }
 ]]
