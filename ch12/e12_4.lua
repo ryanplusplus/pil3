@@ -63,5 +63,4 @@ serialize{"first", {"second"}, "third", a = 1, ["1b"] = 2, c = 3, ["for"] = 4, [
   c = 3,
   ["for"] = 4,
 }
-
 ]]
