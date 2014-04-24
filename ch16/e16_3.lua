@@ -4,36 +4,18 @@ Another way to provide privacy for objects is to implement them using proxies (S
 (There is a small problem with this approach.  Try to figure it out or see Section 17.3, which also presents a solution.)
 ]]
 
-Account = {balance = 0}
-
-function Account:new(o)
-  o = o or {}
-  setmetatable(o, self)
-  self.__index = self
-  return o
-end
-
-function Account:deposit(v)
-  self.balance = self.balance + v
-end
-
-function Account:withdraw(v)
-  if v > self.balance then error "insufficient funds" end
-  self.balance = self.balance - v
-end
-
-function Account:getbalance()
-  return self.balance
-end
+Account = require "account"
 
 a = Account:new()
 
 a:deposit(100)
-assert(a:getbalance() == 100)
+assert(a:balance() == 100)
 
 a:withdraw(60)
-assert(a:getbalance() == 40)
+assert(a:balance() == 40)
 
 print("Everything works!")
 
--- weak tables
+--[[
+The problem with this approach is that an object can never be freed because the proxy table will always hold a reference to the object.  To resolve this the proxy table was set to have weak keys.
+]]
