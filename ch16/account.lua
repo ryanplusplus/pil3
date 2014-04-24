@@ -1,5 +1,7 @@
 Account = {}
-local proxies = {__mode = "k"}
+local mt = {__mode = "k"}
+local proxies = {}
+setmetatable(proxies, mt)
 
 function Account:new(o)
   local o = o or {}
