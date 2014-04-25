@@ -3,7 +3,7 @@ Using math.random, write a function to produce a pseudo-random number with a sta
 ]]
 
 --[[
-Box-muller method (lifted from Wikipedia, of course).
+Box-muller method (http://en.wikipedia.org/wiki/Normal_distribution).
 ]]
 
 function ln(x)
