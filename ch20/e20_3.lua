@@ -16,7 +16,6 @@ function isvalidsequence(t)
   return true
 end
 
-
 assert(isvalidsequence{1, 2, 3, 4, 5} == true)
 assert(isvalidsequence{1, 2, 3, 4, 5, k = true} == true)
 assert(isvalidsequence{1, 2, 3, 4, 5, k = true, [7] = true} == false)
