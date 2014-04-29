@@ -23,6 +23,6 @@ function printres(res)
 end
 
 printres(split("a whole new world", " ")) --> {"a", "whole", "new", "world"}
-printres(split("a;whole;new;world", " ")) --> {"a whole new world"}
+printres(split("a;whole;new;world", " ")) --> {"a;whole;new;world"}
 printres(split("a;whole;new;world", ";")) --> {"a", "whole", "new", "world"}
 printres(split("a9whole;new7world", "%d;")) --> {"a", "whole", "new", "world"}
