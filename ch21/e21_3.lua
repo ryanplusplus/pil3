@@ -6,4 +6,4 @@ function transliterate(s, f)
   return (string.gsub(s, "(.)", f))
 end
 
-print(transliterate("hi.", function(c) return ({h = 'l', i = 'o', ['.'] = '!'})[c] end)) --> "lo!"
+print(transliterate("hi._", function(c) return ({h = 'l', i = 'o', ['.'] = '!'})[c] or '' end)) --> "lo!"
