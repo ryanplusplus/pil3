@@ -58,6 +58,7 @@ function getvarvalue(co, name, level)
   return env[name]
 end
 
+z = 'z'
 local x = 'x'
 co = coroutine.create(function()
   local a = x
@@ -68,5 +69,8 @@ end)
 coroutine.resume(co)
 
 print(getvarvalue('x', 1)) --> 'x'
+print(getvarvalue('z', 1)) --> 'z'
+
 print(getvarvalue(co, 'x', 1)) --> 'x'
 print(getvarvalue(co, 'y', 1)) --> 'y'
+print(getvarvalue(co, 'z', 1)) --> 'z'
