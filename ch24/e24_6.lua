@@ -9,7 +9,7 @@ local y = 4
 local _ = (function()
   local z = y + 1
   print('before:', x, y, z)
-  rdebug.betterdebug()
+  rdebug.debug()
   print('after:', x, y, z)
 end)()
 

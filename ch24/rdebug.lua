@@ -113,7 +113,7 @@ function rdebug.getallvars(level)
   return vars
 end
 
-function rdebug.betterdebug()
+function rdebug.debug()
   local env = rdebug.getallvars(2)
   while true do
     io.write("rdebug> ")

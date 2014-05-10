@@ -8,7 +8,7 @@ x = 3
 local y = 4
 local _ = (function()
   local z = y + 1
-  rdebug.betterdebug()
+  rdebug.debug()
 end)()
 
 --[[
