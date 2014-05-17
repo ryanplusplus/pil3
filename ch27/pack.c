@@ -3,7 +3,6 @@
 #include "lualib.h"
 
 static int pack(lua_State *L) {
-  double sum = 0;
   int count = lua_gettop(L);
   int i;
 
