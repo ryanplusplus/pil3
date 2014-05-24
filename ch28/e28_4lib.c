@@ -2,7 +2,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
-static const char *tablekey = "e28_5lib_trans";
+static const char *tablekey = "e28_4lib_trans";
 
 static int settrans(lua_State *L) {
   lua_pushstring(L, tablekey);
