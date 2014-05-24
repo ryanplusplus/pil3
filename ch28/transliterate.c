@@ -15,12 +15,10 @@ static int transliterate(lua_State *L) {
     char *arg = luaL_buffinitsize(L, &argbuffer, 1);
     luaL_addchar(&argbuffer, source[i]);
 
-    // Push the function onto the top of the stack
-    lua_pushvalue(L, -1);
     luaL_pushresult(&argbuffer);
-    lua_call(L, 1, 1);
+    lua_gettable(L, 2);
 
-    if(!lua_isboolean(L, -1)) {
+    if(!lua_isboolean(L, -1) && !lua_isnil(L, -1)) {
       const char *newchar = luaL_checkstring(L, -1);
       luaL_addchar(&resultbuffer, newchar[0]);
     }
