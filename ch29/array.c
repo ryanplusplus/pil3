@@ -134,9 +134,19 @@ static int getintersection(lua_State *L) {
   return 1;
 }
 
-static int arraytostring(lua_State *L) {
+static int tostring(lua_State *L) {
   NumArray *a = checkarray(L, 1);
-  lua_pushfstring(L, "array(%d)", a->size);
+  int i;
+  luaL_Buffer stringbuffer;
+
+  luaL_buffinit(L, &stringbuffer);
+
+  for(i = 0; i < a-> size; i++) {
+    luaL_addchar(&stringbuffer, getbit(a, i) ? '1' : '0');
+  }
+
+  luaL_pushresult(&stringbuffer);
+
   return 1;
 }
 
@@ -148,7 +158,7 @@ static const struct luaL_Reg lib_f[] = {
 };
 
 static const struct luaL_Reg lib_m[] = {
-  {"__tostring", arraytostring},
+  {"__tostring", tostring},
   {"set", setarray},
   {"get", getarray},
   {"size", getsize},
