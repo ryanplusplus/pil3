@@ -13,6 +13,8 @@ typedef struct NumArray {
   unsigned int values[1];
 } NumArray;
 
+#define checkarray(L, i) (NumArray *)luaL_checkudata(L, i, "LuaBook.array")
+
 static size_t getnbytes(int n) {
   return sizeof(NumArray) + I_WORD(n - 1) * sizeof(unsigned int);
 }
@@ -38,6 +40,9 @@ static void createarray(lua_State *L, int n) {
   nbytes = getnbytes(n);
   a = (NumArray *)lua_newuserdata(L, nbytes);
 
+  luaL_getmetatable(L, "LuaBook.array");
+  lua_setmetatable(L, -2);
+
   a->size = n;
   for(i = 0; i <= I_WORD(n - 1); i++) {
     a->values[i] = 0;
@@ -53,10 +58,9 @@ static int newarray(lua_State *L) {
 }
 
 static int setarray(lua_State *L) {
-  NumArray *a = (NumArray *)lua_touserdata(L, 1);
+  NumArray *a = checkarray(L, 1);
   int index = luaL_checkint(L, 2) - 1;
 
-  luaL_argcheck(L, a != NULL, 1, "'array' expected");
   luaL_argcheck(L, 0 <= index && index < a->size, 2, "index out of range");
   luaL_argcheck(L, lua_isboolean(L, 3), 3, "boolean expected");
 
@@ -66,10 +70,9 @@ static int setarray(lua_State *L) {
 }
 
 static int getarray(lua_State *L) {
-  NumArray *a = (NumArray *)lua_touserdata(L, 1);
+  NumArray *a = checkarray(L, 1);
   int index = luaL_checkint(L, 2) - 1;
 
-  luaL_argcheck(L, a != NULL, 1, "'array' expected");
   luaL_argcheck(L, 0 <= index && index < a->size, 2, "index out of range");
 
   lua_pushboolean(L, getbit(a, index));
@@ -78,7 +81,7 @@ static int getarray(lua_State *L) {
 }
 
 static int getsize(lua_State *L) {
-  NumArray *a = (NumArray *)lua_touserdata(L, 1);
+  NumArray *a = checkarray(L, 1);
   luaL_argcheck(L, a != NULL, 1, "'array' expected");
   lua_pushinteger(L, a->size);
 
@@ -91,8 +94,8 @@ static int getunion(lua_State *L) {
   NumArray *largest;
   NumArray *result;
 
-  NumArray *a1 = (NumArray *)lua_touserdata(L, 1);
-  NumArray *a2 = (NumArray *)lua_touserdata(L, 2);
+  NumArray *a1 = checkarray(L, 1);
+  NumArray *a2 = checkarray(L, 2);
 
   luaL_argcheck(L, a1 != NULL, 1, "'array' expected");
   luaL_argcheck(L, a2 != NULL, 2, "'array' expected");
@@ -118,8 +121,8 @@ static int getintersection(lua_State *L) {
   NumArray *largest;
   NumArray *result;
 
-  NumArray *a1 = (NumArray *)lua_touserdata(L, 1);
-  NumArray *a2 = (NumArray *)lua_touserdata(L, 2);
+  NumArray *a1 = checkarray(L, 1);
+  NumArray *a2 = checkarray(L, 2);
 
   luaL_argcheck(L, a1 != NULL, 1, "'array' expected");
   luaL_argcheck(L, a2 != NULL, 2, "'array' expected");
@@ -148,6 +151,7 @@ static const struct luaL_Reg lib[] = {
 };
 
 int luaopen_array(lua_State *L) {
+  luaL_newmetatable(L, "LuaBook.array");
   luaL_newlib(L, lib);
   return 1;
 }
