@@ -97,9 +97,6 @@ static int getunion(lua_State *L) {
   NumArray *a1 = checkarray(L, 1);
   NumArray *a2 = checkarray(L, 2);
 
-  luaL_argcheck(L, a1 != NULL, 1, "'array' expected");
-  luaL_argcheck(L, a2 != NULL, 2, "'array' expected");
-
   largest = a1->size > a2-> size ? a1 : a2;
   resultsize = largest->size;
 
@@ -124,9 +121,6 @@ static int getintersection(lua_State *L) {
   NumArray *a1 = checkarray(L, 1);
   NumArray *a2 = checkarray(L, 2);
 
-  luaL_argcheck(L, a1 != NULL, 1, "'array' expected");
-  luaL_argcheck(L, a2 != NULL, 2, "'array' expected");
-
   largest = a1->size > a2-> size ? a1 : a2;
   resultsize = largest->size;
 
@@ -140,18 +134,36 @@ static int getintersection(lua_State *L) {
   return 1;
 }
 
-static const struct luaL_Reg lib[] = {
+static int arraytostring(lua_State *L) {
+  NumArray *a = checkarray(L, 1);
+  lua_pushfstring(L, "array(%d)", a->size);
+  return 1;
+}
+
+static const struct luaL_Reg lib_f[] = {
   {"new", newarray},
-  {"set", setarray},
-  {"get", getarray},
-  {"size", getsize},
   {"union", getunion},
   {"intersection", getintersection},
   {NULL, NULL}
 };
 
+static const struct luaL_Reg lib_m[] = {
+  {"__tostring", arraytostring},
+  {"set", setarray},
+  {"get", getarray},
+  {"size", getsize},
+  {NULL, NULL}
+};
+
 int luaopen_array(lua_State *L) {
   luaL_newmetatable(L, "LuaBook.array");
-  luaL_newlib(L, lib);
+
+  lua_pushvalue(L, -1);
+  lua_setfield(L, -2, "__index");
+
+  luaL_setfuncs(L, lib_m, 0);
+
+  luaL_newlib(L, lib_f);
+
   return 1;
 }
