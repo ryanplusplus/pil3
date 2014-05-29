@@ -6,24 +6,29 @@
 #include "lauxlib.h"
 
 static int dir_gc(lua_State *L) {
-  DIR *d = *(DIR **)lua_touserdata(L, 1);
-  if(d) {
-    closedir(d);
+  DIR **d = (DIR **)lua_touserdata(L, 1);
+  if(*d) {
+    closedir(*d);
+    *d = NULL;
   }
 
   return 0;
 }
 
 static int dir_iter(lua_State *L) {
-  DIR *d = *(DIR **)lua_touserdata(L, lua_upvalueindex(1));
+  DIR **d = (DIR **)lua_touserdata(L, lua_upvalueindex(1));
   struct dirent *entry;
-  if((entry = readdir(d)) != NULL) {
-    lua_pushstring(L, entry->d_name);
-    return 1;
+  if(*d) {
+    if((entry = readdir(*d)) != NULL) {
+      lua_pushstring(L, entry->d_name);
+      return 1;
+    }
+    else {
+      closedir(*d);
+      *d = NULL;
+    }
   }
-  else {
-    return 0;
-  }
+  return 0;
 }
 
 static int l_dir(lua_State *L) {
