@@ -5,6 +5,7 @@
 
 typedef struct {
   XML_Parser parser;
+  int callbackRef;
   lua_State *L;
 } lxp_userdata;
 
@@ -12,8 +13,10 @@ static void f_StartElement(void *ud, const char *name, const char **atts) {
   lxp_userdata *xpu = (lxp_userdata *)ud;
   lua_State *L = xpu->L;
 
-  // Get the callback from the table (placed at L:3 in lxp_parse)
-  lua_getfield(L, 3, "StartElement");
+  // Get the callback from the table
+  lua_rawgeti(L, LUA_REGISTRYINDEX, xpu->callbackRef);
+  lua_getfield(L, -1, "StartElement");
+  lua_remove(L, -2);
   if(lua_isnil(L, -1)) {
     lua_pop(L, 1);
     return;
@@ -34,8 +37,10 @@ static void f_CharData(void *ud, const char *s, int len) {
   lxp_userdata *xpu = (lxp_userdata *)ud;
   lua_State *L = xpu->L;
 
-  // Get the callback from the table (placed at L:3 in lxp_parse)
-  lua_getfield(L, 3, "CharacterData");
+  // Get the callback from the table
+  lua_rawgeti(L, LUA_REGISTRYINDEX, xpu->callbackRef);
+  lua_getfield(L, -1, "CharacterData");
+  lua_remove(L, -2);
   if(lua_isnil(L, -1)) {
     lua_pop(L, 1);
     return;
@@ -51,8 +56,10 @@ static void f_EndElement(void *ud, const char *name) {
   lxp_userdata *xpu = (lxp_userdata *)ud;
   lua_State *L = xpu->L;
 
-  // Get the callback from the table (placed at L:3 in lxp_parse)
-  lua_getfield(L, 3, "EndElement");
+  // Get the callback from the table
+  lua_rawgeti(L, LUA_REGISTRYINDEX, xpu->callbackRef);
+  lua_getfield(L, -1, "EndElement");
+  lua_remove(L, -2);
   if(lua_isnil(L, -1)) {
     lua_pop(L, 1);
     return;
@@ -86,7 +93,7 @@ static int lxp_make_parser(lua_State *L) {
   // Store the callback table
   luaL_checktype(L, 1, LUA_TTABLE);
   lua_pushvalue(L, 1);
-  lua_setuservalue(L, -2);
+  xpu->callbackRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
   // Configure parser
   XML_SetUserData(p, xpu);
@@ -111,9 +118,6 @@ static int lxp_parse(lua_State *L) {
   // Get the string (XML) to parse
   s = luaL_optlstring(L, 2, NULL, &len);
 
-  // Blow away everything after the first two args and put the callback table at 3
-  lua_settop(L, 2);
-  lua_getuservalue(L, 1);
   xpu->L = L;
 
   // Parse the string
@@ -131,6 +135,7 @@ static int lxp_close(lua_State *L) {
   if(xpu->parser) {
     XML_ParserFree(xpu->parser);
     xpu->parser = NULL;
+    luaL_unref(L, LUA_REGISTRYINDEX, xpu->callbackRef);
   }
 
   return 0;

@@ -9,8 +9,12 @@ lxp = require 'lxp'
 local count = 0
 
 callbacks = {
-  StartElement = function(parser, tagname)
-    io.write('+ ', string.rep(' ', count), tagname, '\n')
+  StartElement = function(parser, tagname, attributes)
+    io.write('+ ', string.rep(' ', count), tagname)
+    if pairs(attributes)(attributes) then io.write(' {') end
+    for k, v in pairs(attributes) do io.write(' ', k, '=', v) end
+    if pairs(attributes)(attributes) then io.write(' }') end
+    io.write('\n')
     count = count + 1
   end,
 
@@ -26,10 +30,10 @@ callbacks = {
 
 parser = lxp.new(callbacks)
 
-parser:parse('<to><yes/><text>some text</text></to>')
+parser:parse('<to attr1="1" attr2="2"><yes/><text>some text</text></to>')
 parser:close()
 --[[
-+ to
++ to { attr1=1 attr2=2 }
 +  yes
 -  yes
 +  text
