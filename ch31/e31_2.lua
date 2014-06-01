@@ -16,3 +16,14 @@ ping
 pong
 ]]
 
+lproc.start("(function() \
+  print(lproc.receive('b')) \
+  lproc.send('b', true) \
+  lproc.exit() \
+end)()")
+lproc.send('b', 42)
+print(lproc.receive('b'))
+--[[
+42
+true
+]]

@@ -31,7 +31,24 @@ static void movevalues(lua_State *send, lua_State *rec) {
   int n = lua_gettop(send);
   int i;
   for(i = 2; i <= n; i++) {
-    lua_pushstring(rec, lua_tostring(send, i));
+    int t = lua_type(send, i);
+    switch(t) {
+      case LUA_TSTRING:
+        lua_pushstring(rec, lua_tostring(send, i));
+        break;
+
+      case LUA_TBOOLEAN:
+        lua_pushboolean(rec, lua_toboolean(send, i));
+        break;
+
+      case LUA_TNUMBER:
+        lua_pushnumber(rec, lua_tonumber(send, i));
+        break;
+
+      default:
+        luaL_error(send, "unable to send type");
+        break;
+    }
   }
 }
 
