@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include <pthread.h>
 #include <string.h>
 #include "lua.h"
@@ -120,6 +118,29 @@ static int ll_send(lua_State *L) {
   return 0;
 }
 
+static int ll_trysend(lua_State *L) {
+  Proc *p;
+  const char *channel = luaL_checkstring(L, 1);
+
+  pthread_mutex_lock(&kernel_access);
+
+  p = searchmatch(channel, &waitreceive);
+
+  if(p) {
+    movevalues(L, p->L);
+    p->channel = NULL;
+    pthread_cond_signal(&p->cond);
+    lua_pushboolean(L, 1);
+  }
+  else {
+    lua_pushboolean(L, 0);
+  }
+
+  pthread_mutex_unlock(&kernel_access);
+
+  return 1;
+}
+
 static int ll_receive(lua_State *L) {
   Proc *p;
   const char *channel = luaL_checkstring(L, 1);
@@ -211,6 +232,7 @@ static int ll_exit(lua_State *L) {
 static const struct luaL_Reg ll_funcs[] = {
   {"start", ll_start},
   {"send", ll_send},
+  {"trysend", ll_trysend},
   {"receive", ll_receive},
   {"exit", ll_exit},
   {NULL, NULL}
