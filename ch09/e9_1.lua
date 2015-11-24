@@ -2,7 +2,7 @@
 Use coroutines to transform the function in Exercise 5.4 into a generator for combinations, to be used like here:
 
 for c in combinations({"a", "b", "c"}, 2) do
-  printResult(c)
+  print_result(c)
 end
 ]]
 
@@ -42,7 +42,7 @@ function combinations(a, m)
   end
 end
 
-function printResult(a)
+function print_result(a)
   for i = 1, #a do
     if type(a[i]) == 'string' then
       io.write(a[i], ' ')
@@ -53,7 +53,7 @@ function printResult(a)
 end
 
 for c in combinations({'a', 'b', 'c'}, 2) do
-  printResult(c)
+  print_result(c)
 end
 
 --[[
