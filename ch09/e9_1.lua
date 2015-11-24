@@ -19,7 +19,7 @@ function combination_generator(a, m)
   end
 
   if m == 0 then
-    coroutine.yield({{}})
+    coroutine.yield({})
     return
   end
 
@@ -34,12 +34,7 @@ function combination_generator(a, m)
 end
 
 function combinations(a, m)
-  local co = coroutine.create(function() combination_generator(a, m) end)
-
-  return function()
-    local code, res = coroutine.resume(co)
-    return res
-  end
+  return coroutine.wrap(function() combination_generator(a, m) end)
 end
 
 function print_result(a)
