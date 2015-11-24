@@ -52,7 +52,7 @@ function print_result(a)
   io.write('\n')
 end
 
-for c in combinations({'a', 'b', 'c'}, 2) do
+for c in combinations({ 'a', 'b', 'c' }, 2) do
   print_result(c)
 end
 
